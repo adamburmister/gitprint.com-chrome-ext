@@ -1,6 +1,6 @@
 {
-  "name": "Print GitHub Markdown with GitPrint.com",
-  "description": "Adds a print button to the browser to print GitHub markdown files as beautiful printable documents.",
+  "name": "GitPrint.com - Easily print GitHub markdown",
+  "description": "Add a print button into GitHub when viewing markdown files, allowing you to print and download markdown as beautiful PDF documents.",
   "version": "0.1",
   "icons": {
     "16": "icons/icon16.png",
