@@ -8,7 +8,6 @@
     "128": "icons/icon128.png"
   },
   "permissions": [
-    "tabs", 
     "*://github.com/*",
     "*://*.github.com/*"
   ],
