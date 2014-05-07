@@ -32,7 +32,7 @@ function insertButtonsIntoHeader() {
     lnkPrint.setAttribute('aria-label', 'Print this markdown file with GitPrint.com');
     lnkPrint.innerHTML = '<span class="octicon octicon-file-text"></span> Print';
 
-    lnkPrint.addEventListener('click', printFromIframe);
+    // lnkPrint.addEventListener('click', printFromIframe);
 
     var lnkDownload = document.createElement('a');
     lnkDownload.className = 'minibutton gitprint-download tooltipped tooltipped-n';
@@ -62,15 +62,16 @@ function insertButtonsIntoHeader() {
 
 function insertIframeIntoPage() {
   gitprintIframe = document.createElement('iframe');
+  gitprintIframe.name = 'gitprint';
   gitprintIframe.style.display = 'none';
   document.body.appendChild(gitprintIframe);
 }
 
-function printFromIframe(e) {
-  e.preventDefault();
+// function printFromIframe(e) {
+//   e.preventDefault();
 
-  var url = e.target.href;
-  gitprintIframe.src = url;
+//   var url = e.currentTarget.href;
+//   gitprintIframe.src = url;
 
-  return false;
-}
+//   return false;
+// }
