@@ -58,4 +58,5 @@ function addGitPrintToPage() {
 // Add to non-gitprintified markdown areas
 $(document).ready(function() {
   addGitPrintToPage();
+  setInterval(addGitPrintToPage, NEW_PAGE_CHECK_DELAY);
 });
