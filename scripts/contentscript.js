@@ -1,81 +1,61 @@
-var isMarkdown = document.querySelectorAll('.markdown-body');
-if(isMarkdown.length)
-{
-  var readmeSelector = '#readme > span.name';
-  var fileSelector = '.file > .meta > .actions > .button-group';
+var NEW_PAGE_CHECK_DELAY = 1000;
+var GITPRINT_APPLIED_CLASS_FLAG = 'gitprintified';
+var CONTAINER_SELECTOR = '#file:not(.' + GITPRINT_APPLIED_CLASS_FLAG + '), #readme:not(.' + GITPRINT_APPLIED_CLASS_FLAG + ')';
 
-  var isFile = (document.querySelectorAll(fileSelector).length > 0);
-  var isReadme = (document.querySelectorAll(readmeSelector).length > 0);
-
-  var headers = [];
-  var headerSelector = '';
-
-  var gitprintIframe = null;
-
-  if(isFile) {
-    headerSelector = fileSelector;
-  } else if(isReadme) {
-    headerSelector = readmeSelector;
-  } else {
-    return; // Nothing to do on this page
+function insertButtonsIntoPage($el) {
+  var headers = $el.find('> span.name');
+  if(headers.length === 0) {
+    headers = $el.parent().find('.meta');
   }
 
-  insertButtonsIntoHeader();
-  insertIframeIntoPage();
+  for(var i=0; i<headers.length; i++) {
+    var $header = $(headers[i]);
 
-  function insertButtonsIntoHeader() {
-    var headers = document.querySelectorAll(headerSelector);
-    for(var i=0; i<headers.length; i++) {
-      var header = headers[i];
+    var $lnkPrint = $(
+      '<a class="minibutton gitprint tooltipped tooltipped-n" ' +
+          'href="https://gitprint.com' + window.location.pathname + '?print" ' +
+          'aria-label="Print this markdown file with GitPrint.com">' +
+        '<span class="octicon octicon-file-text"></span> Print'+
+      '</a>'
+    );
 
-      var lnkPrint = document.createElement('a');
-      lnkPrint.className = 'minibutton gitprint tooltipped tooltipped-n';
-      lnkPrint.href = 'https://gitprint.com' + window.location.pathname + '?print';
-      lnkPrint.target = '_blank';
-      lnkPrint.setAttribute('aria-label', 'Print this markdown file with GitPrint.com');
-      lnkPrint.innerHTML = '<span class="octicon octicon-file-text"></span> Print';
+    var $lnkDownload = $(
+      '<a class="minibutton gitprint-download tooltipped tooltipped-n" ' +
+          'href="https://gitprint.com' + window.location.pathname + '?download" ' +
+          'aria-label="Download this markdown file as PDF from GitPrint.com">' +
+        '<span class="octicon octicon-file-pdf"></span> Download'+
+      '</a>'
+    );
 
-      // lnkPrint.addEventListener('click', printFromIframe);
-
-      var lnkDownload = document.createElement('a');
-      lnkDownload.className = 'minibutton gitprint-download tooltipped tooltipped-n';
-      lnkDownload.href = 'https://gitprint.com' + window.location.pathname + '?download';
-      lnkDownload.setAttribute('aria-label', 'Download this markdown file as PDF from GitPrint.com');
-      lnkDownload.innerHTML = '<span class="octicon octicon-file-pdf"></span> Download';
-
-      if(isFile) {
-        header.insertBefore(lnkPrint, header.childNodes[1]);
-        header.insertBefore(lnkDownload, header.childNodes[2]);
-      }
-      if(isReadme) {
-        var actions = document.createElement('div');
-        actions.className = 'actions';
-        actions.innerHTML = '<div class="button-group"></div>';
-        
-        var btnGroup = actions.querySelector('.button-group')
-        
-        btnGroup.appendChild(lnkPrint);
-        btnGroup.appendChild(lnkDownload);
-
-        header.insertBefore(actions, header.childNodes[0]);
-      }
+    if($el.hasClass('md')) {
+      var $actions = $('<div class="actions"><div class="button-group"></div></div>');
+      var $btnBar = $actions.find('.button-group');
       
+      $btnBar.prepend($lnkDownload);
+      $btnBar.prepend($lnkPrint);
+
+      $header.append($actions);
+    } else {
+      $header.find('.button-group').prepend($lnkDownload, $lnkPrint);
     }
   }
-
-  function insertIframeIntoPage() {
-    gitprintIframe = document.createElement('iframe');
-    gitprintIframe.name = 'gitprint';
-    gitprintIframe.style.display = 'none';
-    document.body.appendChild(gitprintIframe);
-  }
-
-  // function printFromIframe(e) {
-  //   e.preventDefault();
-
-  //   var url = e.currentTarget.href;
-  //   gitprintIframe.src = url;
-
-  //   return false;
-  // }
 }
+
+function markAsGitified($el) {
+  $el.addClass(GITPRINT_APPLIED_CLASS_FLAG);
+}
+
+function addGitPrintToPage() {
+  $(CONTAINER_SELECTOR).each(
+    function(i, el) {
+      var $el = $(el);
+      insertButtonsIntoPage($el);
+      markAsGitified($el);
+    }
+  );
+}
+
+// Add to non-gitprintified markdown areas
+$(document).ready(function() {
+  addGitPrintToPage();
+});
