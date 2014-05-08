@@ -12,16 +12,16 @@ function insertButtonsIntoPage($el) {
     var $header = $(headers[i]);
 
     var $lnkPrint = $(
-      '<a class="minibutton gitprint tooltipped tooltipped-n" ' +
-          'href="https://gitprint.com' + window.location.pathname + '?print" ' +
+      '<a target="_blank" href="https://gitprint.com' + window.location.pathname + '?print" ' +
+          'class="minibutton gitprint tooltipped tooltipped-n" ' +
           'aria-label="Print this markdown file with GitPrint.com">' +
         '<span class="octicon octicon-file-text"></span> Print'+
       '</a>'
     );
 
     var $lnkDownload = $(
-      '<a class="minibutton gitprint-download tooltipped tooltipped-n" ' +
-          'href="https://gitprint.com' + window.location.pathname + '?download" ' +
+      '<a href="https://gitprint.com' + window.location.pathname + '?download" ' +
+          'class="minibutton gitprint-download tooltipped tooltipped-n" ' +
           'aria-label="Download this markdown file as PDF from GitPrint.com">' +
         '<span class="octicon octicon-file-pdf"></span> Download'+
       '</a>'
