@@ -27,7 +27,7 @@ function insertButtonsIntoPage($el) {
       '</a>'
     );
 
-    if($el.hasClass('md')) {
+    if($el.hasClass('md') || $el.hasClass('markdown')) {
       var $actions = $('<div class="actions"><div class="button-group"></div></div>');
       var $btnBar = $actions.find('.button-group');
       
